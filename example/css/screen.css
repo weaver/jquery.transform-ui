@@ -1,0 +1,98 @@
+/*
+Copyright (c) 2010, Yahoo! Inc. All rights reserved.
+Code licensed under the BSD License:
+http://developer.yahoo.com/yui/license.html
+version: 3.3.0
+build: 3167
+*/
+html{color:#000;background:#FFF;}body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td{margin:0;padding:0;}table{border-collapse:collapse;border-spacing:0;}fieldset,img{border:0;}address,caption,cite,code,dfn,em,strong,th,var{font-style:normal;font-weight:normal;}li{list-style:none;}caption,th{text-align:left;}h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal;}q:before,q:after{content:'';}abbr,acronym{border:0;font-variant:normal;}sup{vertical-align:text-top;}sub{vertical-align:text-bottom;}input,textarea,select{font-family:inherit;font-size:inherit;font-weight:inherit;}input,textarea,select{*font-size:100%;}legend{color:#000;}
+
+
+/* ## Base Stylesheet ## */
+
+body {
+    width: 750px;
+    margin: 0 auto;
+}
+
+h1 {
+    font-weight: bold;
+    font-size: 2em;
+    margin: 0.5em 0;
+}
+
+p {
+    margin-bottom: 1em;
+}
+
+#area {
+    position: relative;
+    background-color: #eee;
+    height: 500px;
+}
+
+
+/* ## Example Widget Style ## */
+
+.ui-transformable {
+    position: absolute;
+    border: 1px dotted black;
+}
+
+.ui-transformable > .ui-widget-content {
+    cursor: move;
+}
+
+.ui-transformable-handle {
+    position: absolute;
+}
+
+.ui-transformable-n {
+    width: 100%; height: 3px;
+    top: -2px; left: 0;
+    cursor: n-resize;
+}
+
+.ui-transformable-e {
+    width: 3px; height: 100%;
+    top: 0; right: -2px;
+    cursor: e-resize;
+}
+
+.ui-transformable-s {
+    width: 100%; height: 3px;
+    bottom: -2px; left: 0;
+    cursor: s-resize;
+}
+
+.ui-transformable-w {
+    width: 3px; height: 100%;
+    top: 0; left: -2px;
+    cursor: w-resize;
+}
+
+.ui-transformable-corner {
+    width: 5px; height: 5px;
+    border: 1px solid #000;
+    background-color: #fff;
+}
+
+.ui-transformable-ne {
+    top: -3px; right: -3px;
+    cursor: ne-resize;
+}
+
+.ui-transformable-se {
+    bottom: -3px; right: -3px;
+    cursor: se-resize;
+}
+
+.ui-transformable-sw {
+    bottom: -3px; left: -3px;
+    cursor: sw-resize;
+}
+
+.ui-transformable-nw {
+    top: -3px; left: -3px;
+    cursor: nw-resize;
+}
