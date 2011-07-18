@@ -99,35 +99,35 @@
        resize: {
          start: function() {
            var el = this.element;
-           this.origSize = { width: el.width(), height: el.height() };
-           this.origPos = el.position();
+           this.origBox = origBox(el, 'position');
+           console.log('resize! %o', this.origBox);
          },
 
          drag: function(ev, dx, dy, data) {
-           var op = this.origPos;
+           var o = this.origBox;
 
            this.element.css({
-             top: (data.top === undefined) ? op.top : data.top,
-             left: (data.left === undefined) ? op.left : data.left,
+             top: (data.top === undefined) ? o.y : data.top,
+             left: (data.left === undefined) ? o.x : data.left,
              width: data.width,
              height: data.height
            });
          },
 
          n: function(ev, dx, dy) {
-           return { top: this.origPos.top + dy, height: this.origSize.height - dy };
+           return { top: this.origBox.y + dy, height: this.origBox.h - dy };
          },
 
          e: function(ev, dx, dy) {
-           return { width: this.origSize.width + dx };
+           return { width: this.origBox.w + dx };
          },
 
          s: function(ev, dx, dy) {
-           return { height: this.origSize.height + dy };
+           return { height: this.origBox.h + dy };
          },
 
          w: function(ev, dx, dy) {
-           return { left: this.origPos.left + dx, width: this.origSize.width - dx };
+           return { left: this.origBox.x + dx, width: this.origBox.w - dx };
          },
 
          ne: function(ev, dx, dy) {
@@ -251,13 +251,13 @@
      return trans;
    }
 
-   function origBox(el) {
+   function origBox(el, posMethod) {
      var trans = transform(el),
          attrs = trans.getAttrs();
 
      el.transform({});
 
-     var pos = el.offset(),
+     var pos = el[posMethod || 'offset'](),
          w = el.width(),
          h = el.height();
 
