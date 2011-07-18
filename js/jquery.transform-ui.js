@@ -92,6 +92,7 @@
      },
 
      _mouseStop: function(ev) {
+       //console.log('STOP');
      },
 
      change: {
@@ -152,28 +153,39 @@
 
        rotate: {
          start: function() {
-           this.origRotate = parseInt(this.element.css('rotate') || 0);
+           var el = this.element,
+               b = origBox(el),
+               o = transform(el).getAttr('origin');
+
+           //console.log('start! top:', b.y, 'left:', b.x, 'width:', b.w, 'height:', b.h, 'origin:', o);
+           this.center = { top: b.y + parseInt(o[1]), left: b.x + parseInt(o[0]) };
+           this.coordOffset = degrees(Math.atan(b.h / b.w));
          },
 
-         drag: function(ev, dx, dy, data) {
-           console.log('drag!', dx, dy, data);
-           this.element.transform({ rotate: (data % 360) + 'deg' });
+         drag: function(ev, dx, dy, offset) {
+           var m = this.center,
+               x = ev.pageX - m.left,
+               y = m.top - ev.pageY,
+               delta = angle(x, y);
+
+           //console.log('rotate!', 'mX:', ev.pageX, 'mY:', ev.pageY, 'cX:', parseInt(this.center.left), 'cY:', parseInt(this.center.top), 'delta:', parseInt(delta), 'y:', parseInt(y), 'x:', parseInt(x), 'offset:', parseInt(offset), 'rotate:', parseInt(offset - delta));
+           this.element.transform({ rotate: (offset - delta) + 'deg' });
          },
 
          ne: function(ev, dx, dy) {
-           return this.origRotate + dx;
+           return this.coordOffset;
          },
 
          se: function(ev, dx, dy) {
-           return this.origRotate - dx;
+           return 360 - this.coordOffset;
          },
 
          sw: function(ev, dx, dy) {
-           return this.origRotate - dx;
+           return 180 + this.coordOffset;
          },
 
          nw: function(ev, dx, dy) {
-           return this.origRotate + dx;
+           return 180 - this.coordOffset;
          }
        },
 
@@ -229,5 +241,42 @@
      }
 
    });
+
+   function transform(el) {
+     var trans = el.get(0).transform;
+     if (!trans) {
+       el.transform();
+       trans = el.get(0).transform;
+     }
+     return trans;
+   }
+
+   function origBox(el) {
+     var trans = transform(el),
+         attrs = trans.getAttrs();
+
+     el.transform({});
+
+     var pos = el.offset(),
+         w = el.width(),
+         h = el.height();
+
+     el.transform(attrs);
+
+     return { x: pos.left, y: pos.top, w: w, h: h };
+   }
+
+   function degrees(rad) {
+     return rad * 180 / Math.PI;
+   }
+
+   function angle(x, y) {
+     if (x == 0) {
+       return (y < 0) ? 270 : 90;
+     }
+     else {
+       return Math.atan(y / x) * 180 / Math.PI + (x < 0 ? 180 : 0);
+     }
+   }
 
 })(jQuery);
